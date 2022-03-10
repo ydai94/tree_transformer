@@ -57,14 +57,12 @@ SPECIAL_CHAR_MBACK["''"] = "&quot;"
 
 
 class CusCoreNLPParser(CoreNLPParser):
+    def __init__(self, url="http://localhost:9000", encoding="utf8", tagtype=None):
+        super().__init__(url, encoding, tagtype)
     def api_call(self, data, properties=None, timeout=18000000, lang=None):
         if properties is None:
             properties = {'parse.binaryTrees': "true"}
         return super().api_call(data, properties, timeout)
-    @classmethod
-    def build_parser(cls, port=9001):
-        port = str(port)
-        return cls(url=f'http://localhost:{port}')
 
 
 def remove_nodeset(tree):
@@ -93,7 +91,7 @@ def remove_nodeset(tree):
         step += 1
     return ntree
 
-parser = CusCoreNLPParser.build_parser(9000)
+parser = CusCoreNLPParser("http://localhost:9001")
 import time
 def f(x, n):
     x = x.lower()
